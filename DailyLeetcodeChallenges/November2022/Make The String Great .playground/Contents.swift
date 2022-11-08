@@ -56,3 +56,49 @@ class Solution {
 let x = Solution()
 print(x.makeGood("leEeetcode")) //O/p - leetcode
 print(x.makeGood("abBAcC")) // O/p - ""
+
+//Faster solution
+class Solution2 {
+    func makeGood(_ s: String) -> String {
+        var stack = [Character]()
+        
+        for c in s {
+            if stack.isEmpty {
+                stack.append(c)
+                print("appended : ",c)
+            } else {
+                let lastC = stack.last!
+                let a1 = Int(c.asciiValue!)
+                let a2 = Int(lastC.asciiValue!)
+                let absV = abs(Int(a1-a2))
+                if absV == 32 {
+                    print("removed last : ",lastC)
+                    stack.removeLast()
+                } else {
+                    print("appended : ",c)
+                    stack.append(c)
+                }
+            }
+        }
+        
+        return stack.reduce("") { $0 + "\($1)" }
+    }
+}
+let y = Solution2()
+print("******")
+print(y.makeGood("leEeetcode"))
+/*
+ O/p :
+ ******
+ appended :  l
+ appended :  e
+ removed last :  e
+ appended :  e
+ appended :  e
+ appended :  t
+ appended :  c
+ appended :  o
+ appended :  d
+ appended :  e
+ leetcode
+ */
