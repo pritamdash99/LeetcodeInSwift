@@ -36,3 +36,23 @@
  */
 import Foundation
 
+class Solution {
+    func makeGood(_ s: String) -> String {
+        var stack = [Character]()
+        next: for char in s {
+            if !stack.isEmpty {
+                if (stack.last!.isLowercase && String(char) == stack.last!.uppercased()) ||
+                   (stack.last!.isUppercase && String(char) == stack.last!.lowercased()) {
+                       stack.removeLast()
+                        continue next
+                   }
+            }
+            stack.append(char)
+        }
+        return String(stack)
+    }
+}
+
+let x = Solution()
+print(x.makeGood("leEeetcode")) //O/p - leetcode
+print(x.makeGood("abBAcC")) // O/p - ""
