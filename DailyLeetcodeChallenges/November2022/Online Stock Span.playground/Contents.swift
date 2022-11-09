@@ -36,18 +36,39 @@
 import Foundation
 
 class StockSpanner {
-
-    init() {
-        
-    }
+    private var stack = [(price: Int, res: Int)]()
     
     func next(_ price: Int) -> Int {
-        
+        var res = 1
+        while !stack.isEmpty && stack.last!.price <= price {
+            let curr = stack.removeLast()
+            res += curr.res
+        }
+        stack.append((price, res))
+        return res
     }
 }
+
 
 /**
  * Your StockSpanner object will be instantiated and called as such:
  * let obj = StockSpanner()
  * let ret_1: Int = obj.next(price)
  */
+
+//faster solution
+class StockSpanner2 {
+    var arr = [(Int, Int)]()
+    
+    init() {
+        
+    }
+    func next(_ price: Int) -> Int {
+        var sum = 1
+        while let last = arr.last, last.0 <= price {
+            sum += arr.removeLast().1
+        }
+        arr.append((price, sum))
+        return sum
+    }
+}
