@@ -26,6 +26,42 @@ import Foundation
 
 class Solution {
     func removeDuplicates(_ s: String) -> String {
-        
+        var s1 = ""
+        var stack = [Character]()
+        for x in s {
+            if stack.isEmpty{
+                stack.append(x)
+                s1 += String(x)
+            }else{
+                if x == stack.last{
+                    s1.removeLast()
+                    stack.removeLast()
+                }else{
+                    stack.append(x)
+                    s1 += String(x)
+                }
+            }
+        }
+        return s1
+    }
+}
+
+let x = Solution()
+print(x.removeDuplicates("abbaca"))
+print(x.removeDuplicates("azxxzy"))
+
+//Faster solution
+
+class Solution2 {
+    func removeDuplicates(_ s: String) -> String {
+        var stack = [Character]()
+        for c in s {
+            if !stack.isEmpty, stack.last == c {
+                stack.removeLast()
+            } else {
+                stack.append(c)
+            }
+        }
+        return String(stack)
     }
 }
