@@ -43,3 +43,25 @@
 
  */
 
+import Foundation
+
+//Faster and Better Solution
+class Solution {
+    func removeDuplicates(_ nums: inout [Int]) -> Int {
+        var j: Int = 1
+        for i in 1..<nums.count {
+            // We skip to next index if we see a duplicate element
+            if nums[i-1] != nums[i] {
+                /* Storing the unique element at j index and incrementing the j by 1 */
+                nums[j] = nums[i]
+                j += 1
+            }
+        }
+        return j
+    }
+}
+
+let x = Solution()
+var nums = [1,2,2,3,3,3,4,4]
+print(x.removeDuplicates(&nums))
+
