@@ -48,4 +48,101 @@
  */
 import Foundation
 
-var greeting = "Hello, playground"
+class Solution {
+    func removeStones(_ stones: [[Int]]) -> Int {
+        var dict = [[Int]: [Int]]()
+        for stone in stones {
+            dict[stone] = stone
+        }
+
+        func find(_ node: [Int]) -> [Int] {
+            if dict[node]! == node {return node}
+            dict[node] = find(dict[node]!)
+            return dict[node]!
+        }
+
+        var res = 0
+
+        func union(_ node1: [Int], _ node2: [Int]) {
+            let root1 = find(node1), root2 = find(node2)
+            if root1 != root2 {res += 1}
+            dict[root1] = root2
+        }
+
+        for stone1 in stones {
+            for stone2 in stones {
+                if stone1[0] == stone2[0] {
+                    union(stone1,stone2)
+                }
+                if stone1[1] == stone2[1] {
+                    union(stone1,stone2)
+                }
+            }
+        }
+        return res
+    }
+}
+
+let x = Solution()
+print(x.removeStones([[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]))
+print(x.removeStones([[0,0],[0,2],[1,1],[2,0],[2,2]]))
+
+
+
+
+//Faster Solution
+
+struct UnionFind {
+    var parent: [Int]
+    var count: [Int]
+    
+    init(_ n: Int) {
+        parent = Array(0...n)
+        count = Array(repeating: 1, count: n + 1)
+    }
+    
+    mutating func find(_ i: Int) -> Int {
+        if parent[i] != i {
+            parent[i] = find(parent[i])
+        }
+        return parent[i]
+    }
+    
+    mutating func union(_ i: Int, _ j: Int) -> Bool {
+        let parentI = find(i), parentJ = find(j)
+        
+        if parentI == parentJ {
+            return false
+        }
+        
+        if count[parentI] <= count[parentJ] {
+            parent[parentI] = parentJ
+            count[parentJ] += count[parentI]
+        } else {
+            parent[parentJ] = parentI
+            count[parentI] += count[parentJ]
+        }
+        return true
+    }
+    
+}
+class Solution2 {
+    func removeStones(_ stones: [[Int]]) -> Int {
+        var uf = UnionFind(stones.count)
+        for i in 0 ..< stones.count {
+            for j in (i + 1) ..< stones.count {
+                if stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1] {
+                    uf.union(i, j)
+                }
+            }
+        }
+        
+        var counter = 0
+        for i in 0 ... stones.count {
+            if uf.find(i) == i {
+                counter += uf.count[i] - 1
+            }
+        }
+        return counter
+    }
+}
