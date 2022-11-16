@@ -47,5 +47,23 @@ import UIKit
  * func guess(_ num: Int) -> Int
  */
 
-
+//This is fastest solution, uses binary search.
+class Solution : GuessGame {
+    func guessNumber(_ n: Int) -> Int {
+        var left = 1, right = n
+        while left <= right {
+            let mid = left + (right - left) / 2
+            let val = guess(mid)
+            
+            if val == -1 {
+                right = mid - 1
+            } else if val == 1 {
+                left = mid + 1
+            } else {
+                return mid
+            }
+        }
+        return -1
+    }
+}
 
