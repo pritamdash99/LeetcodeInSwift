@@ -30,6 +30,18 @@ import Foundation
 
 class Solution {
     func computeArea(_ ax1: Int, _ ay1: Int, _ ax2: Int, _ ay2: Int, _ bx1: Int, _ by1: Int, _ bx2: Int, _ by2: Int) -> Int {
+        let minX = min(ax1,bx1), maxX = max(ax2, bx2)
+        let minY = min(ay1,by1), maxY = max(ay2, by2)
+        let width1 = ax2 - ax1
+        let width2 = bx2 - bx1
+        let height1 = ay2 - ay1
+        let height2 = by2 - by1
         
+        let overlapWidth = maxX - minX - (width1 + width2)
+        let overlapHeight = maxY - minY - (height1 + height2)
+    
+        let overlapArea = (overlapWidth < 0 && overlapHeight < 0) ? overlapWidth*overlapHeight : 0
+        
+        return width1 * height1 + width2 * height2 - overlapArea
     }
 }
