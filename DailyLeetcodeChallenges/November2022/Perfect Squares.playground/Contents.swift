@@ -22,9 +22,60 @@
 
  */
 import Foundation
-
+//fastest solution
 class Solution {
     func numSquares(_ n: Int) -> Int {
+        var n = n
         
+        if isSquare(n) { return 1 }
+        
+        // Check whether n = a^2 + b^2
+        let s = Int(sqrt(Double(n)))
+        for i in 1...s {
+            if isSquare(n - i*i) {
+                return 2
+            }
+        }
+        
+        // The result is 4 if and only if n can be written in the
+        // form of 4^k*(8*m + 7). Please refer to
+        // Legendre's three-square theorem.
+        while n % 4 == 0 {
+            n /= 4
+        }
+        
+        if n % 8 == 7 { return 4 }
+        
+        return 3
+    }
+    
+    private func isSquare(_ int: Int) -> Bool {
+        let s = Int(sqrt(Double(int)))
+        
+        return int - s * s == 0
+    }
+}
+
+let x = Solution()
+print(x.numSquares(12)) // 3
+
+//Another solution
+
+class Solution2 {
+    func numSquares(_ n: Int) -> Int {
+        var dp = Array(repeating: n, count: n + 1)
+        dp[0] = 0
+
+        for target in 1...n {
+            for s in 1...target {
+                let square = s * s
+                if target - square < 0 {
+                    break
+                }
+                dp[target] = min(dp[target], 1 + dp[target - square])
+            }
+        }
+
+        return dp[n]
     }
 }
