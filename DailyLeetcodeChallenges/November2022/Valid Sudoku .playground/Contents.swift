@@ -53,6 +53,41 @@ import Foundation
 
 class Solution {
     func isValidSudoku(_ board: [[Character]]) -> Bool {
-        
+        let len = 9
+        var rowSet = Array(repeating: Set<Character>(), count: len)
+        var colSet = Array(repeating: Set<Character>(), count: len)
+        var boxSet = Array(repeating: Set<Character>(), count:len)
+
+        for i in 0..<len {
+            for j in 0..<len {
+
+                let curentChar = board[i][j]
+                if curentChar == "." {
+                    continue
+                }
+               if !isValid(&rowSet[i], curentChar) {
+                   return false
+               }
+               if !isValid(&colSet[j], curentChar) {
+                   return false
+               }
+               let indx = 3 * (i/3) + (j/3)
+               if !isValid(&boxSet[indx], curentChar) {
+                   return false
+               }
+            }
+        }
+        return true
+    }
+
+    func isValid(_ set: inout Set<Character>, _ char: Character) -> Bool {
+        if set.contains(char) {
+            return false
+        } else {
+            set.insert(char)
+            return true
+        }
     }
 }
+
+
