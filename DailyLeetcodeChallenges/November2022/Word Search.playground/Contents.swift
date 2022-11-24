@@ -77,3 +77,44 @@ class Solution {
     }
 }
 
+//Fastest Solution
+class Solution2 {
+
+    func exist(_ board: [[Character]], _ word: String) -> Bool {
+        let m = board.count
+        let n = board[0].count
+        var visited = Array(repeating: Array(repeating: false, count: n), count: m)
+        let charWord = [Character](word)
+        
+        for y in 0..<m {
+            for x in 0..<n {
+                if dfs(board, charWord, y, x, &visited, 0) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    func dfs(_  board: [[Character]], _ words: [Character], _ y: Int, _ x: Int, _ visited: inout [[Bool]], _ index: Int) -> Bool
+    {
+        if index == words.count {
+            return true
+        }
+        
+        guard y >= 0 && y < board.count && x >= 0 && x < board[0].count else { return false}
+        guard !visited[y][x] && board[y][x] == words[index] else {return false}
+        
+        visited[y][x] = true
+        
+        if dfs(board, words, y+1, x, &visited, index + 1) ||
+            dfs(board, words, y, x+1, &visited, index + 1) ||
+            dfs(board, words, y, x-1, &visited, index + 1) ||
+            dfs(board, words, y-1, x, &visited, index + 1) {
+            return true
+        }
+        visited[y][x] = false
+        return false
+    }
+
+}
