@@ -26,3 +26,52 @@
  */
 import Foundation
 
+class Solution {
+    func jobScheduling(_ startTime: [Int], _ endTime: [Int], _ profit: [Int]) -> Int {
+        let n = startTime.count
+        var arr = [(Int, Int, Int)]() //(start, end, profit)
+        for i in 0..<n {
+            arr.append((startTime[i], endTime[i], profit[i]))
+        }
+
+        arr.sort(by: { $0.1 < $1.1 })
+
+        var dp = [(-1, 0)] //(end, profit)
+        var ans = 0
+
+        func search(_ time: Int) -> (Int, Int) {
+            var l = 0
+            var r = dp.count-1
+
+            while l < r {
+                let mid = (l+r)/2
+                if dp[mid].0 <= time {
+                    l = mid + 1
+                } else if dp[mid].0 > time {
+                    r = mid
+                }
+            }
+
+            if r == 0 || dp[r].0 <= time {
+                return dp[r]
+            }
+
+            return dp[r-1]
+        }
+
+        for i in 0..<n {
+            let (start, end, pro) = arr[i]
+            let last = search(start)
+            ans = max(ans, last.1 + pro)
+            dp.append((end, ans))
+        }
+
+        return ans
+    }
+}
+
+let x = Solution()
+print(x.jobScheduling([1,2,3,4,6], [3,5,10,6,9], [20,20,100,70,60]))
+/*
+ O/p : 150
+ */
