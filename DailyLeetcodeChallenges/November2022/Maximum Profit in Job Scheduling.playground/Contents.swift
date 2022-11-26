@@ -75,3 +75,70 @@ print(x.jobScheduling([1,2,3,4,6], [3,5,10,6,9], [20,20,100,70,60]))
 /*
  O/p : 150
  */
+
+//Another Solution
+class Solution2 {
+    struct Job {
+        let start: Int
+        let end: Int
+        let profit: Int
+    }
+    
+    func jobScheduling(_ startTime: [Int], _ endTime: [Int], _ profit: [Int]) -> Int {
+        var jobs = [Job]()
+        
+        for i in 0 ..< startTime.count {
+            let job = Job.init(start: startTime[i], end: endTime[i], profit: profit[i])
+            jobs.append(job)
+        }
+        
+        //sort jobs by end time
+        jobs.sort(by: {$0.end < $1.end})
+        
+        //max profit at end time
+        var dpEndTime = [Int]()
+        var dpProfit = [Int]()
+        //at time 0, profit is 0
+        dpEndTime.append(0)
+        dpProfit.append(0)
+        
+        for job in jobs {
+            //preJob is: If we do this job,
+            //binary search in the dp to find the largest profit we can make before start time s.
+            //largest profit before start time s is preJob
+            let preJob = smallerOrEqual(dpEndTime, job.start)
+            let noPickProfit = dpProfit[dpProfit.count - 1]
+            let pickProfit = dpProfit[preJob] + job.profit
+            
+            if pickProfit > noPickProfit {
+                dpEndTime.append(job.end)
+                dpProfit.append(pickProfit)
+            } else {
+                dpEndTime.append(job.end)
+                dpProfit.append(noPickProfit)
+            }
+        }
+        
+        return dpProfit[dpProfit.count - 1]
+    }
+    
+    func smallerOrEqual(_ nums: [Int], _ target: Int) -> Int {
+        var left = 0, right = nums.count - 1
+        
+        while left <= right {
+            let mid = left + (right - left) / 2
+            let midVal = nums[mid]
+            
+            if nums[mid] <= target {
+                left = mid + 1
+            } else {
+                right = mid - 1
+            }
+        }
+        
+
+        
+        
+        return right
+    }
+}
