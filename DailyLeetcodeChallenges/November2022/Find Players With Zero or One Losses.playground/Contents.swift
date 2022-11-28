@@ -46,9 +46,53 @@
 
  */
 import Foundation
-
+//fastest solution
 class Solution {
     func findWinners(_ matches: [[Int]]) -> [[Int]] {
         
+        // iterate through each match
+        // insert winner with 0 in lossTable if not already in there
+        // insert loser with 1 in lossTable if not there, else increment count
+        
+        // get dictionary keys and iterate over them, build lists of 0 or 1 loss
+        
+        let WINNER_IDX = 0
+        let LOSER_IDX = 1
+    
+        var lossCounts: [Int: Int] = [:]
+        
+        for match in matches {
+            let winner = match[WINNER_IDX]
+            let loser = match[LOSER_IDX]
+            if(lossCounts[winner] == nil) {
+                lossCounts[winner] = 0
+            }
+            
+            if(lossCounts[loser] == nil) {
+                lossCounts[loser] = 1
+            } else {
+                lossCounts[loser] = lossCounts[loser]! + 1
+            }
+        }
+        
+        var zeroLossPlayers: [Int] = []
+        var oneLossPlayers: [Int] = []
+        
+        for key in lossCounts.keys {
+            if(lossCounts[key] == 0) {
+                zeroLossPlayers.append(key)
+            } else if(lossCounts[key] == 1) {
+                oneLossPlayers.append(key)
+            }
+        }
+        
+        return [zeroLossPlayers.sorted(), oneLossPlayers.sorted()]
     }
 }
+
+let x = Solution()
+print(x.findWinners([[2,3],[1,3],[5,4],[6,4]]))
+/*
+ o/p :
+ [[1, 2, 5, 6], []]
+ */
