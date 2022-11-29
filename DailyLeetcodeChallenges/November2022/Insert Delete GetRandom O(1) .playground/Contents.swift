@@ -48,21 +48,39 @@ import Foundation
 
 class RandomizedSet {
 
+    var array: [Int]
+    var map: [Int: Int]
+    
     init() {
-        
+        array = []
+        map = [Int: Int]()
     }
     
     func insert(_ val: Int) -> Bool {
-        
+        if map[val] == nil {
+            map[val] = array.count
+            array.append(val)
+            return true
+        }
+        return false
     }
     
     func remove(_ val: Int) -> Bool {
-        
+        if let i = map[val] {
+            map[val] = nil
+            let j = array.count - 1
+            if i < j {
+                map[array[j]] = i
+                array.swapAt(i, j)
+            }
+            array.removeLast()
+            return true
+        }
+        return false
     }
     
     func getRandom() -> Int {
-        
+        array.randomElement()!
     }
 }
-
 
