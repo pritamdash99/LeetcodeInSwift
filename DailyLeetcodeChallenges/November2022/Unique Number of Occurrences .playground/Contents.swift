@@ -25,4 +25,25 @@
      -1000 <= arr[i] <= 1000
 
  */
+import Foundation
 
+class Solution {
+    //fastest solution
+    func uniqueOccurrences(_ arr: [Int]) -> Bool {
+        var map = [Int:Int]()
+        for x in arr {
+            let val = map[x]
+            if val == nil {
+                map[x] = 1
+            }else{
+                map[x]! += 1
+            }
+        }
+        return Set(map.values).count == map.values.count
+    }
+}
+
+let x = Solution()
+print(x.uniqueOccurrences([-3,0,1,-3,1,1,1,-3,10,0])) // true
+print(x.uniqueOccurrences([1,2])) // false
+print(x.uniqueOccurrences([1,2,2,1,1,3])) // true
