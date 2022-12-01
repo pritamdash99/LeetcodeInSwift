@@ -54,3 +54,25 @@ class Solution {
 let x = Solution()
 print(x.halvesAreAlike("uo"))
 
+//Better Solution
+class Solution2 {
+    func halvesAreAlike(_ s: String) -> Bool {
+        let vowels: Set<Character> = [
+            "a", "e", "i", "o", "u",
+            "A", "E", "I", "O", "U"
+        ]
+        
+        let s = Array(s)
+        let mid = s.count / 2
+        
+        var a = 0
+        var b = 0
+        
+        for i in stride(from: 0, to: mid, by: 1) {
+            a += vowels.contains(s[i]) ? 1 : 0
+            b += vowels.contains(s[mid+i]) ? 1 : 0
+        }
+        
+        return a == b
+    }
+}
