@@ -32,6 +32,25 @@ import Foundation
 
 class Solution {
     func halvesAreAlike(_ s: String) -> Bool {
+        let x = Array(s)
+        var counter1 = 0 , counter2 = 0
+        let count = x.count
+        for i in 0..<count/2{
+            if x[i] == "a" || x[i] == "e" || x[i] == "i" || x[i] == "o" || x[i] == "u" || x[i] == "A" || x[i] == "E" || x[i] == "I" || x[i] == "O" || x[i] == "U"{
+                counter1 += 1
+            }
+        }
+        let half = count/2
+        for i in half..<count{
+            if x[i] == "a" || x[i] == "e" || x[i] == "i" || x[i] == "o" || x[i] == "u" || x[i] == "A" || x[i] == "E" || x[i] == "I" || x[i] == "O" || x[i] == "U"{
+                counter2 += 1
+            }
+        }
         
+        return counter1 == counter2
     }
 }
+
+let x = Solution()
+print(x.halvesAreAlike("uo"))
+
