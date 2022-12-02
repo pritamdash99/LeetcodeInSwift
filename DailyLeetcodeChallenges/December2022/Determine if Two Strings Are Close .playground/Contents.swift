@@ -39,12 +39,28 @@
      1 <= word1.length, word2.length <= 10^5
      word1 and word2 contain only lowercase English letters.
 
-
  */
 import Foundation
 
 class Solution {
     func closeStrings(_ word1: String, _ word2: String) -> Bool {
-        
+        let w1 = Array(word1), w2 = Array(word2)
+
+        if word1.count != word2.count{
+                return false
+        }
+        var dict1 : [Character:Int] = [:], dict2 : [Character:Int] = [:]
+        for i in 0..<word1.count{
+            dict1[w1[i],default:0] += 1
+            dict2[w2[i],default:0] += 1
+        }
+        if dict1.keys != dict2.keys || dict1.values.sorted() != dict2.values.sorted() {
+            return false
+        }
+        return true
     }
 }
+
+let x = Solution()
+print(x.closeStrings("cabbba", "abbccc"))
+// O/p : true
