@@ -26,18 +26,39 @@
  Explanation: "bbaA" is also a valid answer, but "Aabb" is incorrect.
  Note that 'A' and 'a' are treated as two different characters.
 
- 
  Constraints:
 
      1 <= s.length <= 5 * 10^5
      s consists of uppercase and lowercase English letters and digits.
-
 
  */
 import Foundation
 
 class Solution {
     func frequencySort(_ s: String) -> String {
-        
+        let arr = Array(s)
+        var result = ""
+        var dict = [Character:Int]()
+        for x in arr{
+            dict[x,default: 0] += 1
+        }
+        let arr1 = dict.sorted{
+            $0.value > $1.value
+        }
+        for x in arr1{
+            for _ in 1...x.value{
+                result.append(String(x.key))
+            }
+        }
+        return result
     }
 }
+
+let x = Solution()
+print(x.frequencySort("tree"))
+print(x.frequencySort("acbrasteeui"))
+/*
+ O/p :
+ eetr
+ aaeeurcistb
+ */
