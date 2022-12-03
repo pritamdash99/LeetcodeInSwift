@@ -36,16 +36,15 @@ import Foundation
 
 class Solution {
     func frequencySort(_ s: String) -> String {
-        let arr = Array(s)
         var result = ""
         var dict = [Character:Int]()
-        for x in arr{
+        for x in s{
             dict[x,default: 0] += 1
         }
-        let arr1 = dict.sorted{
+        let arr = dict.sorted{
             $0.value > $1.value
         }
-        for x in arr1{
+        for x in arr{
             for _ in 1...x.value{
                 result.append(String(x.key))
             }
