@@ -50,3 +50,30 @@ class Solution {
     }
 }
 
+//Slower solution but space efficient O(1)
+class Solution2 {
+    func middleNode(_ head: ListNode?) -> ListNode? {
+        guard head != nil else { return head }
+        var (fast,slow) = (head, head)
+        while(fast?.next != nil) {
+            fast = fast?.next?.next
+            slow = slow?.next
+        }
+        return slow
+    }
+}
+
+//fastest solution but consumes O(n) space
+class Solution3 {
+    func middleNode(_ head: ListNode?) -> ListNode? {
+        var a: [ListNode?] = []
+        var current: ListNode? = head
+        var total = 0
+        while current != nil {
+            total += 1
+            a.append(current)
+            current = current?.next
+        }
+        return a[a.count / 2]
+    }
+}
