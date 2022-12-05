@@ -30,4 +30,23 @@ public class ListNode {
      public init(_ val: Int) { self.val = val; self.next = nil; }
      public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
   }
+//Fast and space efficient
+class Solution {
+    func middleNode(_ head: ListNode?) -> ListNode? {
+        guard head != nil else { return head }
+        var current = head
+        var counter = 1
+        while current?.next != nil {
+            current = current?.next
+            counter += 1
+        }
+        var n = counter / 2
+        current = head
+        while n != 0 {
+            current = current?.next
+            n -= 1
+        }
+        return current
+    }
+}
 
