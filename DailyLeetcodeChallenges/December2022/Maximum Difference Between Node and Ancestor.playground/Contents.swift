@@ -43,6 +43,24 @@ public class TreeNode {
 
 class Solution {
     func maxAncestorDiff(_ root: TreeNode?) -> Int {
-        
+        guard let root = root else { return 0 }
+
+        func maxDiff(_ root: TreeNode?, minSoFar: Int, maxSoFar: Int) -> Int {
+            guard let root = root else {
+                return maxSoFar - minSoFar
+            }
+
+            let minSoFar = min(minSoFar, root.val)
+            let maxSoFar = max(maxSoFar, root.val)
+
+            let diffLeft = maxDiff(root.left, minSoFar: minSoFar, maxSoFar: maxSoFar)
+            let diffRight = maxDiff(root.right, minSoFar: minSoFar, maxSoFar: maxSoFar)
+            return max(diffLeft, diffRight)
+        }
+
+        return maxDiff(root, minSoFar: root.val, maxSoFar: root.val)
     }
 }
+
+//faster solution
+
