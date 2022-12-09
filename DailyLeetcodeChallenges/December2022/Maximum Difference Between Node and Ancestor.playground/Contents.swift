@@ -43,24 +43,51 @@ public class TreeNode {
 
 class Solution {
     func maxAncestorDiff(_ root: TreeNode?) -> Int {
-        guard let root = root else { return 0 }
 
-        func maxDiff(_ root: TreeNode?, minSoFar: Int, maxSoFar: Int) -> Int {
-            guard let root = root else {
-                return maxSoFar - minSoFar
-            }
+        guard root != nil else {return 0}
+        var result = 0
 
-            let minSoFar = min(minSoFar, root.val)
-            let maxSoFar = max(maxSoFar, root.val)
+        maxAncestorDiffHelper(root, root!.val, root!.val, &result)
 
-            let diffLeft = maxDiff(root.left, minSoFar: minSoFar, maxSoFar: maxSoFar)
-            let diffRight = maxDiff(root.right, minSoFar: minSoFar, maxSoFar: maxSoFar)
-            return max(diffLeft, diffRight)
-        }
+        return result
+    }
+    
+    func maxAncestorDiffHelper(_ node: TreeNode? , _ maximum : Int , _ minimum : Int , _ result : inout Int) {
+    
+        guard node != nil else {return}
+        
+        var maximum = maximum
+        var minimum = minimum
 
-        return maxDiff(root, minSoFar: root.val, maxSoFar: root.val)
+        result = max(result , abs(maximum - node!.val) , abs(minimum - node!.val))
+        maximum = max(maximum , node!.val)
+        minimum = min(minimum , node!.val)
+
+        maxAncestorDiffHelper(node!.left, maximum, minimum, &result)
+        maxAncestorDiffHelper(node!.right, maximum, minimum, &result)
+
     }
 }
 
-//faster solution
+//fastest solution
 
+class Solution2 {
+    func maxAncestorDiff(_ root: TreeNode?) -> Int {
+        guard let root = root else { return 0 }
+        
+        return maxDiff(root, minSoFar: root.val, maxSoFar: root.val)
+    }
+    
+    private func maxDiff(_ root: TreeNode?, minSoFar: Int, maxSoFar: Int) -> Int {
+        guard let root = root else {
+            return maxSoFar - minSoFar
+        }
+
+        let minSoFar = min(minSoFar, root.val)
+        let maxSoFar = max(maxSoFar, root.val)
+
+        let diffLeft = maxDiff(root.left, minSoFar: minSoFar, maxSoFar: maxSoFar)
+        let diffRight = maxDiff(root.right, minSoFar: minSoFar, maxSoFar: maxSoFar)
+        return max(diffLeft, diffRight)
+    }
+}
