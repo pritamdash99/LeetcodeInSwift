@@ -39,8 +39,36 @@ public class TreeNode {
     }
 }
 
+//fastest solution
 class Solution {
     func maxProduct(_ root: TreeNode?) -> Int {
-        
+        guard let root = root else{
+            return 0
+        }
+        var ans = 0
+        let total = dfsHelper(root)
+        ProductHelper(root, total, &ans)
+        return ans%1000000007
+    }
+    
+    private func dfsHelper(_ root: TreeNode?) -> Int{
+        guard let root = root else{
+            return 0
+        }
+        return dfsHelper(root.left) + dfsHelper(root.right)  + root.val
+    }
+    
+    private func ProductHelper(_ root: TreeNode?,_ total: Int,_ ans: inout Int) -> Int{
+        guard let root = root else{
+            return 0
+        }
+        let left = ProductHelper(root.left, total, &ans)
+        let right = ProductHelper(root.right, total,&ans)
+        let up = total - left - right - root.val
+        let option1 = left * (root.val + right + up)
+        let option2 = right * (root.val + left + up)
+        let option3 = up * (root.val + left + right)
+        ans = max(ans, max(option1, max(option2, option3)))
+        return left + right + root.val
     }
 }
