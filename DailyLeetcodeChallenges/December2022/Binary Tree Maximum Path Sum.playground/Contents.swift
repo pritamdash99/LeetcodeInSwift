@@ -59,3 +59,38 @@ class Solution {
         return max(left + root.val, right + root.val, root.val)
     }
 }
+
+//another solution
+
+class Solution2 {
+    func maxPathSum(_ root: TreeNode?) -> Int {
+        var sum = Int.min
+        maxSum(root, &sum)
+        return sum
+    }
+
+    private func maxSum(_ root: TreeNode?, _ maxVal: inout Int) -> Int {
+        guard let root = root else { return 0 }
+
+        var leftMax = maxSum(root.left, &maxVal)
+        var rightMax = maxSum(root.right, &maxVal)//ignore right if maxSum < 0
+
+        var sum = root.val
+        if leftMax > 0 { //ignore left if leftMax is negative
+            sum += leftMax
+        } else {
+            leftMax = 0
+        }
+        if rightMax > 0{ //ignore left if rightMax is negative
+            sum += rightMax
+        } else {
+            rightMax = 0
+        }
+
+        maxVal = max(sum, maxVal)
+
+        return root.val + max(leftMax, rightMax)
+    }
+}
+
+
