@@ -39,7 +39,23 @@ public class TreeNode {
 }
 
 class Solution {
+    var ans = Int.min
+    
     func maxPathSum(_ root: TreeNode?) -> Int {
-       
+        helper(root)
+        return ans
+    }
+    
+    private func helper(_ root: TreeNode?) -> Int {
+        guard let root = root else {
+            return 0
+        }
+        
+        let left = helper(root.left)
+        let right = helper(root.right)
+        
+        ans = max(left + root.val, right + root.val, left + right + root.val, root.val, ans)
+        
+        return max(left + root.val, right + root.val, root.val)
     }
 }
