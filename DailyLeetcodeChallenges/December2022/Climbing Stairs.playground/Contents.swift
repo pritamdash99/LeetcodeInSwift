@@ -31,6 +31,20 @@ import Foundation
 
 class Solution {
     func climbStairs(_ n: Int) -> Int {
-        
+        guard n > 1 else { return n }
+        var left = 1, right = 1
+
+        for _ in 2 ... n {
+            let temp = right
+            right += left
+            left = temp
+        }
+
+        return right
     }
 }
+
+let x = Solution()
+print(x.climbStairs(5))
+// 8
+
