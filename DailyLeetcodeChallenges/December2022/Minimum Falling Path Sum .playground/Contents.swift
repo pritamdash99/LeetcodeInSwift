@@ -26,9 +26,64 @@
  
  */
 import Foundation
-
+//O(n^2)
 class Solution {
     func minFallingPathSum(_ matrix: [[Int]]) -> Int {
+        var dp = matrix
+        
+        for i in 1..<dp.count {
+            for j in 0..<dp[i].count {
+                
+                let val1 = dp[i - 1][j]
+                let val2 = dp[i - 1][max(0, j - 1)]
+                let val3 = dp[i - 1][min(j + 1, dp[i].count - 1)]
+                
+                dp[i][j] = min(val1, val2, val3) + dp[i][j]
+            }
+        }
+        
+        return dp.last?.min() ?? 0
+    }
+}
+
+//faster solution - O(n)
+class Solution2 {
+    func minFallingPathSum(_ matrix: [[Int]]) -> Int {
+        let rows = matrix.count
+        let columns = matrix[0].count
+        var memo = Array.init(repeating: Array.init(repeating: -1,count: columns),count: rows)
+
+        func dfs(_ row:Int,_ col:Int)->Int {
+            
+            if col < 0 || col >= columns {
+                return Int.max - 1000
+            }
+            
+            if row == 0 {
+                return matrix[row][col]
+            }
+              if memo[row][col] != -1 {
+                return  memo[row][col]
+            }
+            let straight =  matrix[row][col] + dfs(row - 1 ,col)
+            let leftDiagonal = matrix[row][col] + dfs(row - 1,col-1)
+            let rightDiagonal = matrix[row][col] + dfs(row - 1,col+1)
+            
+            memo[row][col] =  min(straight,leftDiagonal,rightDiagonal)
+            
+            return memo[row][col]
+            
+        }
+        
+        var minPath = Int.max
+        
+        for col in 0..<columns {
+            minPath = min(minPath,dfs(rows-1,col))
+        }
+        
+        return minPath
         
     }
 }
+
+
