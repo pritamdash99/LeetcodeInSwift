@@ -41,3 +41,32 @@ class Solution {
     }
 }
 
+//faster solution
+class Solution2 {
+    func rob(_ nums: [Int]) -> Int {
+        if nums.endIndex == 0 {
+            return 0
+        }
+        if nums.endIndex == 1 {
+            return nums[0]
+        }
+        if nums.endIndex == 2 {
+            return max(nums[0],nums[1])
+        }
+        var dp0 = nums[0]
+        var dp1 = nums[1]
+        var dp2 = nums[2] + nums[0]
+        
+        for i in 3..<nums.endIndex {
+            let curr = max(dp0,dp1) + nums[i]
+            dp0 = dp1
+            dp1 = dp2
+            dp2 = curr
+            
+        }
+        
+        return max(dp1, dp2)
+    }
+}
+
+
