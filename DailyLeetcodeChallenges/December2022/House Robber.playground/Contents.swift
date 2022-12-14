@@ -69,4 +69,24 @@ class Solution2 {
     }
 }
 
+//another faster solution
+class Solution3 {
+    var calculated: [Int: Int] = [0:0]
 
+    func rob(_ nums: [Int]) -> Int {
+        calculated[1] = nums[0]
+
+        let count = nums.count
+
+        return rob(nums, count)
+    }
+
+    private func rob(_ nums: [Int], _ n: Int) -> Int {
+        if let r = calculated[n] {
+            return r
+        }
+        let r = max(rob(nums, n - 2) + nums[n - 1], rob(nums, n - 1))
+        calculated[n] = r
+        return r
+    }
+}
