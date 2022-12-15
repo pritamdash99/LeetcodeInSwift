@@ -53,3 +53,47 @@ class Solution {
         return dp[arr1.endIndex][arr2.endIndex]
     }
 }
+
+//another solution
+// Approach 2: Improved Memoization (top-down DP)
+// Much more elefant solutions as for me to understand it :-)
+
+// TIME: O(M*N)
+// Space: O(M*N)
+
+class Solution2 {
+    func longestCommonSubsequence(_ text1: String, _ text2: String) -> Int {
+
+        let text1: [Character] = Array(text1)
+        let text2: [Character] = Array(text2)
+
+        // Make a grid of 0's with text2.length() + 1 columns
+        // and text1.length() + 1 rows.
+        var dpGrid = [[Int]](repeating: [Int](repeating: 0, count: text2.count + 1), count: text1.count + 1)
+          
+        // Iterate up each column, starting from the last one.
+        for col in stride(from: text2.count - 1, through: 0, by: -1) {
+            for row in stride(from: text1.count - 1, through: 0, by: -1) {
+                // If the corresponding characters for this cell are the same...
+                if text1[row] == text2[col] {
+                    dpGrid[row][col] = 1 + dpGrid[row + 1][col + 1]
+
+                // Otherwise they must be different...
+                } else {
+                    dpGrid[row][col] = max(dpGrid[row + 1][col], dpGrid[row][col + 1])
+                }
+            }
+        }
+
+        // The original problem's answer is in dp_grid[0][0]. Return it.
+        // print("---")
+        // print(dpGrid[0])
+        // print(dpGrid[1])
+        // print(dpGrid[2])
+        // print(dpGrid[3])
+        // print(dpGrid[4])
+        // print(dpGrid[5])
+        return dpGrid[0][0]
+    }
+}
+
