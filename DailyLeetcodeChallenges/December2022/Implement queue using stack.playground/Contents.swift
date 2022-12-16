@@ -48,25 +48,34 @@
 import Foundation
 
 class MyQueue {
+    private var stackIn = [Int]()
+    private var stackOut = [Int]()
 
-    init() {
-        
-    }
+    init() {}
     
     func push(_ x: Int) {
-        
+        stackIn.append(x)
     }
     
     func pop() -> Int {
-        
+        move()
+        return stackOut.removeLast()
     }
     
     func peek() -> Int {
-        
+        move()
+        return stackOut.last!
     }
     
     func empty() -> Bool {
-        
+        stackIn.isEmpty && stackOut.isEmpty
+    }
+    
+    private func move() {
+        guard stackOut.isEmpty else { return }
+        while !stackIn.isEmpty {
+            stackOut.append(stackIn.removeLast())
+        }
     }
 }
 
