@@ -46,6 +46,32 @@ import Foundation
 
 class Solution {
     func evalRPN(_ tokens: [String]) -> Int {
-        
+        var stack = [Int]()
+        for token in tokens {
+            if let n = Int(token) {
+                stack.append(n)
+            } else {
+                let a = stack.removeLast()
+                let b = stack.removeLast()
+                switch token {
+                    case "+":
+                        stack.append(b+a)
+                    case "-":
+                        stack.append(b-a)
+                    case "*":
+                        stack.append(b*a)
+                    case "/":
+                        stack.append(b/a)
+                    default:
+                        break
+                }
+            }
+            
+        }
+        return stack.first!
     }
 }
+
+let x = Solution()
+print(x.evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
+//22
