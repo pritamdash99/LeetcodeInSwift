@@ -47,4 +47,28 @@ class Solution {
 }
 
 
+//faster solution
+class Solution2 {
+
+    struct Value {
+        var val : Int
+        var index : Int
+    }
+    
+    func dailyTemperatures(_ temperatures: [Int]) -> [Int] {
+        var stack = [Value]()
+        var output = Array(repeating: 0, count: temperatures.count)
+        
+        for (i, temp) in temperatures.enumerated() {
+            while !stack.isEmpty, stack.last!.val < temp {
+                let last = stack.removeLast()
+                output[last.index] = i - last.index
+            }
+            let val = Value(val: temp, index: i)
+            stack.append(val)
+        }
+        
+        return output
+    }
+}
 
