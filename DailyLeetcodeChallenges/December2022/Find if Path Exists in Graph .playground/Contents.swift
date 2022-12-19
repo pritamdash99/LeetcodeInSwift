@@ -64,3 +64,39 @@ class Solution {
     }
 }
 
+//another solution
+class Solution2 {
+    func validPath(_ n: Int, _ edges: [[Int]], _ source: Int, _ destination: Int) -> Bool {
+        
+        var graph = [[Int]](repeating: [], count: n)
+        
+        for edge in edges {
+            graph[edge[0]].append(edge[1])
+            graph[edge[1]].append(edge[0])
+        }
+        
+        var stack = [Int]()
+        var visited = Set<Int>()
+        
+        stack.append(source)
+        
+        while !stack.isEmpty {
+            let currentVertex = stack.removeLast()
+            visited.insert(currentVertex)
+            
+            if currentVertex == destination {
+                return true
+            }
+            
+            for edge in graph[currentVertex] {
+                if !visited.contains(edge) {
+                    stack.append(edge)
+                }
+            }
+        }
+        
+        return false
+    }
+}
+
+
