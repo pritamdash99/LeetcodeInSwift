@@ -55,3 +55,28 @@ class Solution {
     }
 }
 
+class Solution2 {
+    func canVisitAllRooms(_ rooms: [[Int]]) -> Bool {
+    var seen = [Bool](repeating: false, count: rooms.count)
+    seen[0] = true
+
+    var stack = [Int]()
+    stack.append(0)
+
+    while !stack.isEmpty {
+        guard let currentKey = stack.popLast() else { return false }
+        for key in rooms[currentKey] {
+            if !seen[key] {
+                seen[key].toggle()
+                stack.append(key)
+            }
+        }
+    }
+
+
+    for visited in seen {
+        if !visited { return false}
+    }
+    return true
+    }
+}
