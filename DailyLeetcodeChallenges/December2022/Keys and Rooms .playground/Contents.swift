@@ -37,6 +37,21 @@ import Foundation
 
 class Solution {
     func canVisitAllRooms(_ rooms: [[Int]]) -> Bool {
-        
+        var roomMap = Array(repeating:0, count:rooms.count)
+        var keyQueue = [Int]()
+        keyQueue.append(0)
+
+        repeat {
+            let key = keyQueue.removeFirst()
+            roomMap[key] = 1
+            for key in rooms[key] {
+                if roomMap[key] == 0 {
+                    keyQueue.append(key)
+                }
+                roomMap[key] = 1
+            }
+        } while !keyQueue.isEmpty
+        return !roomMap.contains(where:{$0 == 0})
     }
 }
+
