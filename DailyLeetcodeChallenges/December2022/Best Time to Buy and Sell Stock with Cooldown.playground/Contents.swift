@@ -30,6 +30,25 @@ import Foundation
 
 class Solution {
     func maxProfit(_ prices: [Int]) -> Int {
-        
+        let count = prices.count
+        guard count != 0 else {
+            return 0
+        }
+        var sell = 0
+        var buy = -prices[0]
+        var cooldown = 0;
+        for i in 1..<count {
+            let preSell = sell
+            let prevCooldown = cooldown
+            sell = maxi(buy+prices[i], sell)
+            cooldown = maxi(maxi(preSell,buy),cooldown)
+            buy = maxi(prevCooldown - prices[i], buy)
+        }
+        return maxi(maxi(sell,buy),cooldown)
+    }
+    private func maxi(_ a: Int, _ b: Int) -> Int{
+        return a > b ? a : b
     }
 }
+
+
