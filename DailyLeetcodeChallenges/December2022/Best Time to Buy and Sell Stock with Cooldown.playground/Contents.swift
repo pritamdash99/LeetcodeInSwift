@@ -51,4 +51,24 @@ class Solution {
     }
 }
 
+//faster solution
+class Solution2 {
+    func maxProfit(_ prices: [Int]) -> Int {
+        var hold = -1000 // bought yesterday or earier
+        var notHoldA = 0 // didn't sell yesterday (ready to buy today)
+        var notHoldB = 0 // probably sold yesterday (not ready to buy today)
 
+        for price in prices {
+            (hold,
+             notHoldA,
+             notHoldB) = (maxi(hold, notHoldA - price),
+                          maxi(notHoldA, notHoldB),
+                          max(notHoldA, notHoldB, hold + price))
+        }
+        
+        return notHoldB
+    }
+    private func maxi(_ a: Int, _ b: Int) -> Int{
+        return a > b ? a : b
+    }
+}
