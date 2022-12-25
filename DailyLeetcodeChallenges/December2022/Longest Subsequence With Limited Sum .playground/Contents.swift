@@ -37,6 +37,24 @@ import Foundation
 
 class Solution {
     func answerQueries(_ nums: [Int], _ queries: [Int]) -> [Int] {
+        let nums = nums.sorted()
+        let queries = queries.enumerated().sorted(by: { $0.element < $1.element })
+        var n = 0, q = 0
+        var res: [Int] = .init(repeating: nums.count, count: queries.count)
+        var curSum = 0
+        while n < nums.count, q < queries.count {
+            if curSum > queries[q].element {
+                res[queries[q].offset] = 0
+                q += 1
+            } else if curSum + nums[n] > queries[q].element {
+                res[queries[q].offset] = n
+                q += 1
+            } else {
+                curSum += nums[n]
+                n += 1
+            }
+        }
         
+        return res
     }
 }
