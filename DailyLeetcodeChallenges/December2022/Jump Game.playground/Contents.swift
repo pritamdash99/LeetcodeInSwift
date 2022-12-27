@@ -29,6 +29,12 @@ import Foundation
 
 class Solution {
     func canJump(_ nums: [Int]) -> Bool {
-        
+        var curr = nums.endIndex-1
+        for i in (0..<nums.endIndex-1).reversed() {
+            if i+nums[i] >= curr {
+                curr = i
+            }
+        }
+        return curr == 0
     }
 }
