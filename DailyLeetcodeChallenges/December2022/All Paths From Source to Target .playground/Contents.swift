@@ -28,6 +28,46 @@ import Foundation
 
 class Solution {
     func allPathsSourceTarget(_ graph: [[Int]]) -> [[Int]] {
+        var res = [[Int]]()
+        var queue = [[0]]
+        let target = graph.endIndex - 1
+        while !queue.isEmpty {
+            let arr = queue.removeFirst()
+            let curr = arr.last!
+            if curr == target {
+                res.append(arr)
+                continue
+            }
+            for next in graph[curr] {
+                queue.append(arr+[next])
+            }
+        }
+        return res
+    }
+}
+
+
+class Solution2 {
+    func allPathsSourceTarget(_ graph: [[Int]]) -> [[Int]] {
         
+        func backtrackDFS(_ curr : inout [Int] , _ node: Int) {
+            if node == graph.count - 1 {
+                result.append(curr)
+                return
+            }
+
+            let adjList = graph[node]
+            for neighbour in adjList {
+                curr.append(neighbour)
+                backtrackDFS(&curr, neighbour)
+                curr.removeLast()
+            }
+        }
+    
+        var curr = [0]
+        var result = [[Int]]()
+        backtrackDFS(&curr , 0)
+
+        return result
     }
 }
