@@ -35,6 +35,45 @@ import Foundation
 
 class Solution {
     func wordPattern(_ pattern: String, _ s: String) -> Bool {
-        
+        var characterForWord: [String: Character] = [:]
+        var wordForCharacter: [Character: String] = [:]
+        let words = s.components(separatedBy: .whitespaces)
+
+        guard pattern.count == words.count else { return false }
+
+        for (i, character) in pattern.enumerated() {
+            let word = words[i]
+            if characterForWord[word] == nil && wordForCharacter[character] == nil {
+                characterForWord[word] = character
+                wordForCharacter[character] = word
+            } else if characterForWord[word] == character && wordForCharacter[character] == word {
+                continue
+            } else {
+                return false
+            }
+        }
+
+        return true
     }
 }
+
+
+class Solution2 {
+    func wordPattern(_ pattern: String, _ s: String) -> Bool {
+        let words = s.components(separatedBy: " ")
+        guard words.count == pattern.count else { return false }
+        var cWord = [Character: String]()
+        var wordC = [String: Character]()
+        for (c, word) in zip(pattern, words) {
+            if let match = cWord[c], match != word {
+                return false
+            } else if let match = wordC[word], match != c {
+                return false
+            }
+            cWord[c] = word
+            wordC[word] = c
+        }
+        return true
+    }
+}
+
